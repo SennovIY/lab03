@@ -5,7 +5,16 @@
 1650218190 c:\Учебные файлы\РПОСУ\lab03\histogram.h
 	<vector>
 
-1650219279 source:c:\Учебные файлы\РПОСУ\lab03\test.cpp
+1650232089 source:c:\Учебные файлы\РПОСУ\lab03\test.cpp
 	"histogram.h"
+	"svg.h"
 	<cassert>
+	<vector>
+
+1650232089 c:\Учебные файлы\РПОСУ\lab03\svg.h
+	<iostream>
+	<vector>
+
+1650232089 source:c:\Учебные файлы\РПОСУ\lab03\svg.cpp
+	"svg.h"
 

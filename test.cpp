@@ -1,6 +1,10 @@
 #include "histogram.h"
+#include "svg.h"
 
 #include <cassert>
+#include <vector>
+
+using namespace std;
 
 void test_positive() {
     double min = 0;
@@ -42,10 +46,24 @@ void test_empty() {
     assert(max == 0);
 }
 
+void test_small_bin_height() {
+    double bin_height = 50;
+    correct_bin_height({1,2,3}, bin_height);
+    assert(bin_height == 50);
+}
+
+void test_big_bin_height() {
+    double bin_height = 200;
+    correct_bin_height({1, 2, 3, 4, 5, 6, 7}, bin_height);
+    assert(bin_height == 100);
+}
+
 int main() {
     test_positive();
     test_negative();
     test_same();
     test_alone();
     test_empty();
+    test_small_bin_height();
+    test_big_bin_height();
 }
