@@ -102,10 +102,23 @@ void show_histogram_svg(const vector<size_t>& bins) {
     const auto BIN_STROKE = "red";
     const auto BIN_FILL = "#3CB371";
 
+    const auto MAX_ASTERISK = (IMAGE_WIDTH - TEXT_WIDTH)/10;
+
+    size_t max_bin = bins[0];
+    for (size_t bin : bins) {
+        if (max_bin < bin) {
+            max_bin = bin;
+        }
+    }
+
     svg_begin(IMAGE_WIDTH, IMAGE_HEIGHT);
     double top = 0;
     for (size_t bin : bins) {
-        const double bin_width = BLOCK_WIDTH * bin;
+        double height = bin;
+        if (max_bin > MAX_ASTERISK) {
+            height = MAX_ASTERISK * (static_cast<double>(bin) / max_bin);
+        }
+        const double bin_width = BLOCK_WIDTH * height;
         svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin));
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, BIN_FILL, BIN_STROKE);
         top += BIN_HEIGHT;
