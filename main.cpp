@@ -91,8 +91,18 @@ void show_histogram_text(const vector<size_t>& bins) {
     }
 }
 
-Input
-download(const string& address) {
+size_t write_data(void* items, size_t item_size, size_t item_count, void* ctx) {
+    // TODO: дописывать данные к буферу.
+    stringstream* buffer = reinterpret_cast<stringstream*>(ctx);
+
+    size_t data_size = item_size * item_count;
+
+    buffer->write(static_cast<const char*>(items), data_size);
+
+    return data_size;
+}
+
+Input download(const string& address) {
     stringstream buffer;
 
     // TODO: заполнить буфер.
@@ -102,6 +112,8 @@ download(const string& address) {
     if(curl) {
         CURLcode res;
         curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
         res = curl_easy_perform(curl);
         if(res != CURLE_OK) {
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
