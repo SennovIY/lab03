@@ -72,6 +72,19 @@ int main() {
     DWORD version = info & mask;
     printf("version = %08x\n", version);
 
+    DWORD platform = info >> 16;
+
+    DWORD version_mask = 0b00000000'11111111;
+    DWORD version_major = version & version_mask;
+    DWORD version_minor = version >> 8;
+
+    DWORD build;
+    if ((info & 0x80000000) == 0) {
+        build = platform;
+    }
+
+    printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
+
     return 0;
     // ¬вод данных
     size_t number_count;
