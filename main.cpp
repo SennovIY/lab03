@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <windows.h>
 
 using namespace std;
 
@@ -61,6 +62,13 @@ void show_histogram_text(const vector<size_t>& bins) {
 }
 
 int main() {
+
+    DWORD info = GetVersion();
+
+    printf("version = %u\n", info);
+    printf("version = %08x\n", info);
+
+    return 0;
     // Ввод данных
     size_t number_count;
     cerr << "Enter number count: ";
@@ -79,5 +87,5 @@ int main() {
     // Вывод данных
     show_histogram_svg(bins);
 
-    return 0;
+
 }
