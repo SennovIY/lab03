@@ -31,8 +31,17 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="curl/include" />
 		</Compiler>
+		<Linker>
+			<Add library="libcurl.dll.a" />
+			<Add directory="curl/lib" />
+		</Linker>
+		<Unit filename="histogram.cpp" />
+		<Unit filename="histogram.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="svg.cpp" />
+		<Unit filename="svg.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
