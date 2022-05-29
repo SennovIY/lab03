@@ -124,11 +124,17 @@ Input download(const string& address) {
         if(res != CURLE_OK) {
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
             exit(1);
+        } else {
+            curl_off_t speed;
+            res = curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD_T, &speed);
+            if(!res) {
+                fprintf(stderr, "Download speed %" CURL_FORMAT_CURL_OFF_T " bytes/sec\n", speed);
+            }
         }
     curl_easy_cleanup(curl);
     }
 
-    return read_input(buffer, true);
+    return read_input(buffer, false);
 }
 
 int main(int argc, char* argv[]) {
