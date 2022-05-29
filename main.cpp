@@ -17,7 +17,7 @@ struct Input {
 vector<double> input_numbers(istream& in, size_t count) {
     vector<double> result(count);
     for (size_t i = 0; i < count; i++) {
-        cin >> result[i];
+        in >> result[i];
     }
     return result;
 }
@@ -122,7 +122,7 @@ Input download(const string& address) {
     curl_easy_cleanup(curl);
     }
 
-    return read_input(buffer, false);
+    return read_input(buffer, true);
 }
 
 int main(int argc, char* argv[]) {
