@@ -4,6 +4,8 @@
 #include <curl/curl.h>
 #include <iostream>
 #include <vector>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -89,24 +91,38 @@ void show_histogram_text(const vector<size_t>& bins) {
     }
 }
 
-int main(int argc, char* argv[]) {
-    if (argc > 1) {
-        CURL *curl = curl_easy_init();
-        if(curl) {
-            CURLcode res;
-            curl_easy_setopt(curl, CURLOPT_URL, argv[1]);
-            res = curl_easy_perform(curl);
-            if(res != CURLE_OK) {
-                fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-                exit(1);
-            }
-            curl_easy_cleanup(curl);
-        }
-        return 0;
-    }
+Input
+download(const string& address) {
+    stringstream buffer;
+
+    // TODO: заполнить буфер.
     curl_global_init(CURL_GLOBAL_ALL);
+
+    CURL *curl = curl_easy_init();
+    if(curl) {
+        CURLcode res;
+        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+        res = curl_easy_perform(curl);
+        if(res != CURLE_OK) {
+            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            exit(1);
+        }
+    curl_easy_cleanup(curl);
+    }
+
+    return read_input(buffer, false);
+}
+
+int main(int argc, char* argv[]) {
+    Input input;
+    if (argc > 1) {
+        input = download(argv[1]);
+    } else {
+        input = read_input(cin, true);
+    }
+
     // ¬вод данных
-    const auto input = read_input(cin, true);
+    /*const auto input = read_input(cin, true);*/
 
     // ќбработка данных
     const auto bins = make_histogram(input);
