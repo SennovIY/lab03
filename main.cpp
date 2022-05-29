@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <windows.h>
+#include <tchar.h>
+#define INFO_BUFFER_SIZE 32767
 
 using namespace std;
 
@@ -84,6 +86,13 @@ int main() {
     }
 
     printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
+
+
+    TCHAR  infoBuf[INFO_BUFFER_SIZE];
+    DWORD  bufCharCount = INFO_BUFFER_SIZE;
+
+    if(!GetComputerName(infoBuf, &bufCharCount)) printf("GetComputerName");
+    printf("\nComputer name: %s\n", infoBuf);
 
     return 0;
     // ¬вод данных
