@@ -12,6 +12,7 @@ using namespace std;
 struct Input {
     vector<double> numbers;
     size_t bin_count;
+    double bin_height;
 };
 
 vector<double> input_numbers(istream& in, size_t count) {
@@ -41,6 +42,11 @@ read_input(istream& in, bool prompt = "true") {
         cerr << "Enter column count: ";
     }
     in >> data.bin_count;
+
+    if (prompt) {
+        cerr << "Enter column height: ";
+    }
+    in >> data.bin_height;
 
     return data;
 }
@@ -126,6 +132,8 @@ Input download(const string& address) {
 }
 
 int main(int argc, char* argv[]) {
+
+    // Ввод данных
     Input input;
     if (argc > 1) {
         input = download(argv[1]);
@@ -133,14 +141,11 @@ int main(int argc, char* argv[]) {
         input = read_input(cin, true);
     }
 
-    // Ввод данных
-    /*const auto input = read_input(cin, true);*/
-
     // Обработка данных
     const auto bins = make_histogram(input);
 
     // Вывод данных
-    show_histogram_svg(bins);
+    show_histogram_svg(bins, input.bin_height);
 
     return 0;
 }
