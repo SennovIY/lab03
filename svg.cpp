@@ -1,4 +1,8 @@
 #include "svg.h"
+#include <windows.h>
+#include <tchar.h>
+
+const auto INFO_BUFFER_SIZE = 32767;
 
 void svg_begin(double width, double height) {
     cout << "<?xml version='1.0' encoding='UTF-8'?>\n";
@@ -19,6 +23,30 @@ void svg_text(double left, double baseline, string text) {
 
 void svg_rect(double x, double y, double width, double height, string fill = "black", string stroke = "black") {
     cout << "<rect x='" << x << "' y='" << y << "' width='" << width << "' height='" << height << "' stroke='" << stroke << "' fill='" << fill << "'/>";
+}
+
+void get_version_info(DWORD &version_major, DWORD &version_minor, DWORD &build) {
+    DWORD info = GetVersion();
+
+    DWORD mask = 0b00000000'00000000'11111111'11111111;
+    DWORD version = info & mask;
+    DWORD platform = info >> 16;
+
+    DWORD version_mask = 0b00000000'11111111;
+    version_major = version & version_mask;
+    version_minor = version >> 8;
+
+    if ((info & 0x80000000) == 0) {
+        build = platform;
+    }
+
+  //  printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
+
+
+
+
+  /*  if(!GetComputerName(infoBuf, &bufCharCount)) printf("GetComputerName");
+    printf("\nComputer name: %s\n", infoBuf);*/
 }
 
 void show_histogram_svg(const vector<size_t>& bins) {
@@ -61,5 +89,15 @@ void show_histogram_svg(const vector<size_t>& bins) {
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, BIN_FILL, BIN_STROKE);
         top += BIN_HEIGHT;
     }
+
+    DWORD version_major, version_minor, build;
+    TCHAR  infoBuf[INFO_BUFFER_SIZE];
+    DWORD  bufCharCount = INFO_BUFFER_SIZE;
+    GetComputerName(infoBuf, &bufCharCount);
+    get_version_info(version_major, version_minor, build);
+
+    svg_text(TEXT_LEFT, top + 20, "Windows v" + to_string(version_major) + "." + to_string(version_minor) + " (build " + to_string(build) + ")");
+    svg_text(TEXT_LEFT, top + 40, "Computer name: ");
+    svg_text(TEXT_LEFT + 110, top + 40, infoBuf);
     svg_end();
 }

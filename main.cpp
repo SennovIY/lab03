@@ -3,9 +3,8 @@
 
 #include <iostream>
 #include <vector>
-#include <windows.h>
-#include <tchar.h>
-#define INFO_BUFFER_SIZE 32767
+
+
 
 using namespace std;
 
@@ -65,7 +64,7 @@ void show_histogram_text(const vector<size_t>& bins) {
 
 int main() {
 
-    DWORD info = GetVersion();
+  /*  DWORD info = GetVersion();
 
     printf("version = %u\n", info);
     printf("version = %08x\n", info);
@@ -92,9 +91,9 @@ int main() {
     DWORD  bufCharCount = INFO_BUFFER_SIZE;
 
     if(!GetComputerName(infoBuf, &bufCharCount)) printf("GetComputerName");
-    printf("\nComputer name: %s\n", infoBuf);
+    printf("\nComputer name: %s\n", infoBuf); */
 
-    return 0;
+
     // Ввод данных
     size_t number_count;
     cerr << "Enter number count: ";
@@ -113,5 +112,5 @@ int main() {
     // Вывод данных
     show_histogram_svg(bins);
 
-
+    return 0;
 }
