@@ -5,6 +5,8 @@
 
 using namespace std;
 
+struct Input;
+
 void find_minmax(const vector<double>& numbers, double& min, double& max);
 
 #endif // HISTOGRAM_H_INCLUDED
